@@ -1,0 +1,29 @@
+{
+  "name": "restaurant-reviews",
+  "version": "1.0.0",
+  "description": "Udacity Senior Web Developer Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubalcava/restaurant-reviews.git"
+  },
+  "author": "Richard Rubalcava",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rubalcava/restaurant-reviews/issues"
+  },
+  "homepage": "https://github.com/rubalcava/restaurant-reviews#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.12",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-webserver": "^0.9.1",
+    "html-min": "0.0.4",
+    "pump": "^1.0.1"
+  }
+}
