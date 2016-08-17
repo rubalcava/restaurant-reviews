@@ -8,6 +8,28 @@ var ViewModel = function() {
     self.data_for_hours = [];
     var search_button = document.getElementById('my-search-button');
 
+    function getImage(place_id, place_name) {
+        document.getElementById('subresult-img').innerHTML = '';
+        var image_location = '';
+        var image_alt = '';
+        $.ajax({
+    		url: 'https://api.foursquare.com/v2/venues/' + place_id + '/photos?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815',
+    		dataType: 'json',
+    		success: function(response) {
+                if (response.response.photos.items.length > 0) {
+                    image_location = response.response.photos.items[0].prefix + response.response.photos.items[0].height + 'x' + response.response.photos.items[0].width + response.response.photos.items[0].suffix;
+
+                    document.getElementById('subresult-img').innerHTML = '<img class="img-thumbnail"' + 'src="' + image_location + '"' + 'alt="' + place_name + ' picture from Foursquare API">';
+
+                } else {
+                    // TODO figure out random image if none found
+                    document.getElementById('subresult-img').innerHTML = '<img class="img-responsive" ' + 'src="#" ' + 'alt="No image found in Foursquare API"' + '>';
+                }
+
+    		}
+    	});
+    }
+
     function getHours(place_id) {
         /* next ajax call four hours*/
 
@@ -99,6 +121,8 @@ var ViewModel = function() {
                 place_formatted_location = place_formatted_location + place_location_array[k];
             }
         }
+        //TODO Get image on page
+        getImage(place_id, place_name);
         getHours(place_id);
 
         document.getElementById('subresult-name').innerHTML = place_name;
@@ -129,9 +153,7 @@ var ViewModel = function() {
                         response.response.venues[i].visibility = true;
                         self.data_from_model.push(response.response.venues[i]);
                     }
-
-                    console.log(self.data_from_model());
-
+                    /* Good place if you need to inspect data from model */
                     for (var j=0; j < self.data_from_model().length; j++) {
 
                         function theCloser(current_index) {
@@ -142,7 +164,11 @@ var ViewModel = function() {
                         theCloser(j);
                     }
                 }
-    		}
+    		},
+            error: function(err) {
+                console.log(err);
+                document.getElementById('subresult-name').innerHTML = 'Bad request, please try something else.';
+            }
     	});
     });
 
