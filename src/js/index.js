@@ -111,6 +111,7 @@ var ViewModel = function() {
     function getSubResults(index) {
         var place_name = self.data_from_model()[index].name;
         var place_id = self.data_from_model()[index].id;
+        var cuisine_type = self.data_from_model()[index].categories[0].name;
         var place_location_array = self.data_from_model()[index].location.formattedAddress;
         var place_formatted_location = '';
 
@@ -121,12 +122,13 @@ var ViewModel = function() {
                 place_formatted_location = place_formatted_location + place_location_array[k];
             }
         }
-        //TODO Get image on page
+        
         getImage(place_id, place_name);
         getHours(place_id);
 
         document.getElementById('subresult-name').innerHTML = place_name;
         document.getElementById('subresult-address').innerHTML = place_formatted_location;
+        document.getElementById('subresult-cuisine-type').innerHTML = cuisine_type;
     }
 
     search_button.addEventListener('click', function() {
@@ -153,7 +155,6 @@ var ViewModel = function() {
                         response.response.venues[i].visibility = true;
                         self.data_from_model.push(response.response.venues[i]);
                     }
-                    /* Good place if you need to inspect data from model */
                     for (var j=0; j < self.data_from_model().length; j++) {
 
                         function theCloser(current_index) {
