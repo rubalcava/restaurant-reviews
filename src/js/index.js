@@ -148,7 +148,7 @@ var ViewModel = function() {
                 }
                 else {
                     self.data_from_model.removeAll();
-                    for (var i = 0; i < 10; i++) {
+                    for (var i = 0; i < response.response.venues.length; i++) {
                         response.response.venues[i].index = 'results-list-item' + i;
                         response.response.venues[i].visibility = true;
                         self.data_from_model.push(response.response.venues[i]);
@@ -161,6 +161,7 @@ var ViewModel = function() {
                                 getSubResults(current_index);
                             });
 
+                            /* code from http://stackoverflow.com/questions/155188/trigger-a-button-click-with-javascript-on-the-enter-key-in-a-text-box */
                             document.getElementById('results-list-item' + current_index)
                             .addEventListener("keyup", function(event) {
                                 event.preventDefault();
