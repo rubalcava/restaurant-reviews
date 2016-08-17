@@ -13,14 +13,27 @@
         </div>
         <form class='my-search-form' role='search'>
             <div class="form-group">
-                <input type='text' class='form-control' id='my-search-input' placeholder='Example: Coffee in San Francisco'>
+                <label for='my-search-input-query'>Which cuisine would you like to look for?</label>
+                <input type='text' class='form-control' id='my-search-input-query' placeholder='Example: Mexican food'>
+            </div>
+            <div class="form-group">
+                <label for='my-search-input-location'>In which city would you like to look?</label>
+                <input type='text' class='form-control' id='my-search-input-location' placeholder='Example: San Francisco'>
             </div>
               <button type='button' class='btn btn-default' id='my-search-button'>Search</button>
         </form>
         <main>
             <section class='results'>
+                <ul id='results-list' data-bind='foreach: data_from_model'>
+                    <li class="results-list-item" data-bind="text: name, attr:{id: index}, visible: visibility"></li>
+                </ul>
             </section>
             <section class='subresult'>
+                <div>
+                    <p id='subresult-name'></p>
+                    <p id='subresult-address'></p>
+                    <p id='subresult-hours'><br></p>
+                </div>
             </section>
         </main>
         <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.0.min.js'></script>

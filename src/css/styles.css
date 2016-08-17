@@ -6,3 +6,15 @@
 .my-search-form {
     padding: 15px;
 }
+
+.results-list-item {
+    font-size: 20px;
+}
+
+.subresult {
+    padding: 15px;
+}
+
+#subresult-name {
+    font-weight: bold;
+}
