@@ -136,6 +136,7 @@ var ViewModel = function() {
 
         location_to_search = document.getElementById('my-search-input-location').value;
 
+        //TODO is this needed?
         document.getElementById('subresult-name').innerHTML = '';
         document.getElementById('subresult-address').innerHTML = '';
 
@@ -144,18 +145,18 @@ var ViewModel = function() {
     		url: 'https://api.foursquare.com/v2/venues/search?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815&near=' + location_to_search + '&query=' + cuisine_to_search_for,
     		dataType: 'json',
     		success: function(response) {
-    			/**/
+                self.data_from_model.removeAll();
+
                 if (response.response.venues.length < 1 ) {
-                    self.data_from_model({name: 'No results found', index: 0});
+                    self.data_from_model.push({name: 'No results found', index: 0});
 
                     document.getElementById('subresult-name').innerHTML = '';
                     document.getElementById('subresult-address').innerHTML = '';
                     document.getElementById('subresult-cuisine-type').innerHTML = '';
-                    document.getElementById('subresult-img').innerHTML = '<img class="img-responsive" ' + 'src="#" ' + 'alt="No image found in Foursquare API"' + '>';
+                    document.getElementById('subresult-img').innerHTML = '';
                     document.getElementById('subresult-hours').innerHTML = '';
                 }
                 else {
-                    self.data_from_model.removeAll();
                     for (var i = 0; i < response.response.venues.length; i++) {
                         response.response.venues[i].index = 'results-list-item' + i;
                         response.response.venues[i].visibility = true;
@@ -183,7 +184,12 @@ var ViewModel = function() {
     		},
             error: function(err) {
                 console.log(err);
+                self.data_from_model.removeAll();
                 document.getElementById('subresult-name').innerHTML = 'Bad request, please try something else.';
+                document.getElementById('subresult-address').innerHTML = '';
+                document.getElementById('subresult-cuisine-type').innerHTML = '';
+                document.getElementById('subresult-img').innerHTML = '';
+                document.getElementById('subresult-hours').innerHTML = '';
             }
     	});
     });
