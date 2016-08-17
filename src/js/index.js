@@ -122,7 +122,7 @@ var ViewModel = function() {
                 place_formatted_location = place_formatted_location + place_location_array[k];
             }
         }
-        
+
         getImage(place_id, place_name);
         getHours(place_id);
 
@@ -147,6 +147,12 @@ var ViewModel = function() {
     			/**/
                 if (response.response.venues.length < 1 ) {
                     self.data_from_model({name: 'No results found', index: 0});
+
+                    document.getElementById('subresult-name').innerHTML = '';
+                    document.getElementById('subresult-address').innerHTML = '';
+                    document.getElementById('subresult-cuisine-type').innerHTML = '';
+                    document.getElementById('subresult-img').innerHTML = '<img class="img-responsive" ' + 'src="#" ' + 'alt="No image found in Foursquare API"' + '>';
+                    document.getElementById('subresult-hours').innerHTML = '';
                 }
                 else {
                     self.data_from_model.removeAll();
