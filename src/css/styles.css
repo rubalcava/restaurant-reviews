@@ -7,8 +7,12 @@
     padding: 15px;
 }
 
+.checkbox-group {
+    padding: 25px 15px 25px 10px;
+    margin-bottom: 0;
+}
+
 .results {
-    margin-top: 30px;
     margin-bottom: 30px;
 }
 

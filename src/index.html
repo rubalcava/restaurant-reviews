@@ -20,12 +20,17 @@
                 <label for='my-search-input-location'>In which city would you like to look?</label>
                 <input type='text' class='form-control' id='my-search-input-location' placeholder='Example: San Francisco'>
             </div>
-              <button type='button' class='btn btn-default' id='my-search-button'>Search</button>
+            <button type='button' class='btn btn-default' id='my-search-button'>Search</button>
+            <div class='form-group checkbox-group'>
+                <p><strong>No results after search? Try unchecking the below filters.</strong></p>
+                <label class="checkbox-inline"><input type="checkbox" value="" id='checkbox-is-chain'>Chain Restaurant?</label>
+                <label class="checkbox-inline"><input type="checkbox" value="" id='checkbox-users-there'>Foursquare users there?</label>
+            </div>
         </form>
         <main>
             <section class='results'>
                 <ul id='results-list' data-bind='foreach: data_from_model'>
-                    <li class="results-list-item" tabindex="0" data-bind="text: name, attr:{id: index}"></li>
+                    <li class="results-list-item" tabindex="0" data-bind="text: name, visible: visibility, attr:{id: index}"></li>
                 </ul>
             </section>
             <section class='subresult'>

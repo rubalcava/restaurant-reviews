@@ -22,7 +22,6 @@ var ViewModel = function() {
                     document.getElementById('subresult-img').innerHTML = '<img class="img-thumbnail"' + 'src="' + image_location + '"' + 'alt="' + place_name + ' picture from Foursquare API">';
 
                 } else {
-                    // TODO figure out random image if none found
                     document.getElementById('subresult-img').innerHTML = '<img class="img-responsive" ' + 'src="#" ' + 'alt="No image found in Foursquare API"' + '>';
                 }
 
@@ -136,10 +135,6 @@ var ViewModel = function() {
 
         location_to_search = document.getElementById('my-search-input-location').value;
 
-        //TODO is this needed?
-        document.getElementById('subresult-name').innerHTML = '';
-        document.getElementById('subresult-address').innerHTML = '';
-
         /* initial ajax call to get results */
         $.ajax({
     		url: 'https://api.foursquare.com/v2/venues/search?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815&near=' + location_to_search + '&query=' + cuisine_to_search_for,
@@ -159,7 +154,7 @@ var ViewModel = function() {
                 else {
                     for (var i = 0; i < response.response.venues.length; i++) {
                         response.response.venues[i].index = 'results-list-item' + i;
-                        response.response.venues[i].visibility = true;
+                        response.response.venues[i].visibility = ko.observable(true);
                         self.data_from_model.push(response.response.venues[i]);
                     }
                     for (var j=0; j < self.data_from_model().length; j++) {
@@ -181,6 +176,11 @@ var ViewModel = function() {
                         theCloser(j);
                     }
                 }
+                var event = new Event('change');
+
+                document.getElementById('checkbox-is-chain').dispatchEvent(event);
+
+                document.getElementById('checkbox-users-there').dispatchEvent(event);
     		},
             error: function(err) {
                 console.log(err);
@@ -194,6 +194,143 @@ var ViewModel = function() {
     	});
     });
 
+    document.getElementById('checkbox-is-chain').addEventListener('change', function() {
+        /* clear subresult */
+        document.getElementById('subresult-name').innerHTML = '';
+        document.getElementById('subresult-address').innerHTML = '';
+        document.getElementById('subresult-cuisine-type').innerHTML = '';
+        document.getElementById('subresult-img').innerHTML = '';
+        document.getElementById('subresult-hours').innerHTML = '';
+
+        /* handle both being checked */
+        if ($('#checkbox-is-chain').is(':checked') && $('#checkbox-users-there').is(':checked')) {
+            for (var joint_index in self.data_from_model()) {
+                /* check if both required attributes are what we want */
+                if (self.data_from_model()[joint_index].venueChains.length > 0 && self.data_from_model()[joint_index].hereNow.count > 0) {
+                    makeVisible(joint_index);
+                }
+                /* both required attributes aren't what we want, so hide item*/
+                else {
+                    makeInvisible(joint_index);
+                }
+            }
+        }
+        /* handle just chain checkbox being changed */
+        else {
+            /* handle chain checkbox being checked */
+            if ($('#checkbox-is-chain').is(':checked')) {
+                for (var chain_index in self.data_from_model()) {
+                    if (self.data_from_model()[chain_index].venueChains.length > 0) {
+                        makeVisible(chain_index);
+                    } else {
+                        makeInvisible(chain_index);
+                    }
+                }
+            }
+            /* handle chain checkbox being unchecked */
+            else {
+                /* when other checkbox is still checked */
+                if ($('#checkbox-users-there').is(':checked')) {
+                    for (var index in self.data_from_model()) {
+                        makeVisible(index);
+                        if (self.data_from_model()[index].hereNow.count === 0) {
+                            makeInvisible(index);
+                        }
+                    }
+                }
+                /* when other checkbox is not checked */
+                else {
+                    for (var this_index in self.data_from_model()) {
+                        makeVisible(this_index);
+                    }
+                }
+            }
+        }
+    });
+
+    document.getElementById('checkbox-users-there').addEventListener('change', function() {
+        /* clear subresult */
+        document.getElementById('subresult-name').innerHTML = '';
+        document.getElementById('subresult-address').innerHTML = '';
+        document.getElementById('subresult-cuisine-type').innerHTML = '';
+        document.getElementById('subresult-img').innerHTML = '';
+        document.getElementById('subresult-hours').innerHTML = '';
+
+        /* handle both being checked */
+        if ($('#checkbox-is-chain').is(':checked') && $('#checkbox-users-there').is(':checked')) {
+            for (var joint_index in self.data_from_model()) {
+                /* check if both required attributes are what we want */
+                if (self.data_from_model()[joint_index].venueChains.length > 0 && self.data_from_model()[joint_index].hereNow.count > 0) {
+                    makeVisible(joint_index);
+                }
+                /* both required attributes aren't what we want, so hide item*/
+                else {
+                    makeInvisible(joint_index);
+                }
+            }
+        }
+        /* handle just users checkbox being changed */
+        else {
+            /* handle user checkbox being checked */
+            if ($('#checkbox-users-there').is(':checked')) {
+                for (var chain_index in self.data_from_model()) {
+                    if (self.data_from_model()[chain_index].hereNow.count > 0) {
+                        makeVisible(chain_index);
+                    } else {
+                        makeInvisible(chain_index);
+                    }
+                }
+            }
+            /* handle user checkbox being unchecked*/
+            else {
+                /* when other checkbox is still checked */
+                if ($('#checkbox-is-chain').is(':checked')) {
+                    for (var index in self.data_from_model()) {
+                        makeVisible(index);
+                        if (self.data_from_model()[index].venueChains.length < 1) {
+                            makeInvisible(index);
+                        }
+                    }
+                }
+                /* when other checkbox isn't checked */
+                else {
+                    for (var this_index in self.data_from_model()) {
+                        makeVisible(this_index);
+                    }
+                }
+            }
+        }
+    });
+
+    function makeVisible(index) {
+        self.data_from_model()[index].visibility(true);
+    }
+
+    function makeInvisible(index) {
+        self.data_from_model()[index].visibility(false);
+    }
+
+    function usersThere() {
+
+    }
+
+    // TODO legacy code, for safe keeping
+    /*document.getElementById('checkbox-is-chain').addEventListener('change', function() {
+        if ($('#checkbox-is-chain').is(':checked')) {
+            console.log(self.data_from_model());
+            for (var my_index in self.data_from_model()) {
+                if (self.data_from_model()[my_index].venueChains.length > 0) {
+                    self.data_from_model()[my_index].visibility(true);
+                } else {
+                    self.data_from_model()[my_index].visibility(false);
+                }
+            }
+        } else {
+            for (var another_index in self.data_from_model()) {
+                self.data_from_model()[another_index].visibility(true);
+            }
+        }
+    });*/
 };
 
 ko.applyBindings(new ViewModel());
