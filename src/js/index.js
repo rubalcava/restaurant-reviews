@@ -160,6 +160,14 @@ var ViewModel = function() {
                             document.getElementById('results-list-item' + current_index).addEventListener('click', function() {
                                 getSubResults(current_index);
                             });
+
+                            document.getElementById('results-list-item' + current_index)
+                            .addEventListener("keyup", function(event) {
+                                event.preventDefault();
+                                if (event.keyCode == 13) {
+                                    document.getElementById('results-list-item' + current_index).click();
+                                }
+                            });
                         }
                         theCloser(j);
                     }
