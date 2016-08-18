@@ -31,6 +31,8 @@ var ViewModel = function() {
 
     function getHours(place_id) {
         /* next ajax call four hours*/
+        //TODO remove this console.log() when done.
+        console.log(place_id);
 
         $.ajax({
     		url: 'https://api.foursquare.com/v2/venues/' + place_id + '/hours?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815',
@@ -309,28 +311,6 @@ var ViewModel = function() {
     function makeInvisible(index) {
         self.data_from_model()[index].visibility(false);
     }
-
-    function usersThere() {
-
-    }
-
-    // TODO legacy code, for safe keeping
-    /*document.getElementById('checkbox-is-chain').addEventListener('change', function() {
-        if ($('#checkbox-is-chain').is(':checked')) {
-            console.log(self.data_from_model());
-            for (var my_index in self.data_from_model()) {
-                if (self.data_from_model()[my_index].venueChains.length > 0) {
-                    self.data_from_model()[my_index].visibility(true);
-                } else {
-                    self.data_from_model()[my_index].visibility(false);
-                }
-            }
-        } else {
-            for (var another_index in self.data_from_model()) {
-                self.data_from_model()[another_index].visibility(true);
-            }
-        }
-    });*/
 };
 
 ko.applyBindings(new ViewModel());
