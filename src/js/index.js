@@ -158,6 +158,10 @@ var ViewModel = function() {
                         response.response.venues[i].index = 'results-list-item' + i;
                         response.response.venues[i].visibility = ko.observable(true);
                         self.data_from_model.push(response.response.venues[i]);
+                        /* limit results to 15 restaurants*/
+                        if (i == 14) {
+                            break;
+                        }
                     }
                     for (var j=0; j < self.data_from_model().length; j++) {
 
