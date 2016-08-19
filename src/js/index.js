@@ -8,6 +8,54 @@ var ViewModel = function() {
     self.data_for_hours = [];
     var search_button = document.getElementById('my-search-button');
 
+    function getTips(place_id) {
+        document.getElementById('subresult-img').innerHTML = '';
+        var user_first_name = '';
+        var user_last_name = '';
+        var review_text = '';
+        var entire_tip_section = '';
+
+        $.ajax({
+    		url: 'https://api.foursquare.com/v2/venues/' + place_id + '/tips?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815',
+    		dataType: 'json',
+    		success: function(response) {
+                if (response.response.tips.count > 0) {
+                    /* loop through each tip */
+                    for (var i=0; i< response.response.tips.count; i++) {
+                        user_first_name = response.response.tips.items[i].user.firstName;
+                        /* check is last name exists */
+                        if (response.response.tips.items[i].user.lastName !== undefined) {
+                            user_last_name = response.response.tips.items[i].user.lastName;
+                        }
+
+                        review_text = response.response.tips.items[i].text;
+                        entire_tip_section = entire_tip_section + '<p><strong>'+ user_first_name + ' ' + user_last_name + ':</strong></p>' + '<p>' + review_text + '</p>';
+
+
+                        user_first_name = '';
+                        user_last_name = '';
+                        review_text = '';
+                        /* only want 3 tips max */
+                        if (i === 3) {
+                            break;
+                        }
+                        /* output to page */
+                        document.getElementById('subresult-tips').innerHTML = '<p><strong>Tips</strong></p>' + entire_tip_section;
+                    }
+
+                }
+                /* No tips found */
+                else {
+                    document.getElementById('subresult-img').innerHTML = '<p><strong>Tips: </strong></p>' + '<p>No user tips found.</p>';
+                }
+    		},
+            error: function(err) {
+                console.log(err);
+                document.getElementById('subresult-img').innerHTML = '<p><strong>Tips: </strong></p>' + '<p><strong>Error loading tips from the Foursquare API.<br>Please try again later.</strong></p>';
+            }
+    	});
+    }
+
     function getImage(place_id, place_name) {
         document.getElementById('subresult-img').innerHTML = '';
         var image_location = '';
@@ -30,9 +78,6 @@ var ViewModel = function() {
     }
 
     function getHours(place_id) {
-
-        //TODO remove this console.log() when done.
-        console.log(place_id);
 
         /* ajax call for hours*/
         $.ajax({
@@ -134,6 +179,7 @@ var ViewModel = function() {
 
         getImage(place_id, place_name);
         getHours(place_id);
+        getTips(place_id);
 
         document.getElementById('subresult-name').innerHTML = place_name;
         document.getElementById('subresult-address').innerHTML = place_formatted_location;
