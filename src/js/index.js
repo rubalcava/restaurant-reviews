@@ -30,10 +30,11 @@ var ViewModel = function() {
     }
 
     function getHours(place_id) {
-        /* next ajax call four hours*/
+
         //TODO remove this console.log() when done.
         console.log(place_id);
 
+        /* ajax call for hours*/
         $.ajax({
     		url: 'https://api.foursquare.com/v2/venues/' + place_id + '/hours?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815',
     		dataType: 'json',
@@ -112,7 +113,14 @@ var ViewModel = function() {
     function getSubResults(index) {
         var place_name = self.data_from_model()[index].name;
         var place_id = self.data_from_model()[index].id;
-        var cuisine_type = self.data_from_model()[index].categories[0].name;
+        var cuisine_type;
+
+        if (self.data_from_model()[index].categories.length === 0) {
+            cuisine_type = 'Cuisine type unavailable';
+        } else {
+            cuisine_type = self.data_from_model()[index].categories[0].name;
+        }
+
         var place_location_array = self.data_from_model()[index].location.formattedAddress;
         var place_formatted_location = '';
 
