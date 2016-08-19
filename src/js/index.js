@@ -1,3 +1,5 @@
+// TODO decide if all elements should be tabbable
+
 var ViewModel = function() {
     var self = this;
 
@@ -19,6 +21,7 @@ var ViewModel = function() {
     		url: 'https://api.foursquare.com/v2/venues/' + place_id + '/tips?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815',
     		dataType: 'json',
     		success: function(response) {
+                console.log(response.response.tips.items);
                 if (response.response.tips.count > 0) {
                     /* loop through each tip */
                     for (var i=0; i< response.response.tips.count; i++) {
