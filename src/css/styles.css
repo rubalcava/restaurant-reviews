@@ -12,7 +12,7 @@
     margin-bottom: 0;
 }
 
-.results {
+#results {
     margin-bottom: 30px;
 }
 
@@ -20,7 +20,7 @@
     font-size: 20px;
 }
 
-.subresult {
+#subresult {
     padding: 15px;
 }
 

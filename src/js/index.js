@@ -189,6 +189,8 @@ var ViewModel = function() {
         document.getElementById('subresult-name').innerHTML = '<p tabindex="0">' + place_name + '</p>';
         document.getElementById('subresult-address').innerHTML = place_formatted_location;
         document.getElementById('subresult-cuisine-type').innerHTML = cuisine_type;
+
+        document.getElementById('subresult').style.display = 'block';
     }
 
     search_button.addEventListener('click', function() {
@@ -196,6 +198,7 @@ var ViewModel = function() {
 
         location_to_search = document.getElementById('my-search-input-location').value;
 
+        document.getElementById('subresult').style.display = 'none';
         /* initial ajax call to get results */
         $.ajax({
     		url: 'https://api.foursquare.com/v2/venues/search?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815&near=' + location_to_search + '&query=' + cuisine_to_search_for,
@@ -261,6 +264,8 @@ var ViewModel = function() {
 
     document.getElementById('checkbox-is-chain').addEventListener('change', function() {
         /* clear subresult */
+        document.getElementById('subresult').style.display = 'none';
+
         document.getElementById('subresult-name').innerHTML = '';
         document.getElementById('subresult-address').innerHTML = '';
         document.getElementById('subresult-cuisine-type').innerHTML = '';
@@ -316,6 +321,8 @@ var ViewModel = function() {
 
     document.getElementById('checkbox-users-there').addEventListener('change', function() {
         /* clear subresult */
+        document.getElementById('subresult').style.display = 'none';
+
         document.getElementById('subresult-name').innerHTML = '';
         document.getElementById('subresult-address').innerHTML = '';
         document.getElementById('subresult-cuisine-type').innerHTML = '';
