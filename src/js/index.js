@@ -200,6 +200,7 @@ var ViewModel = function() {
     }
 
     search_button.addEventListener('click', function() {
+        self.data_from_model.removeAll();
         cuisine_to_search_for = document.getElementById('my-search-input-query').value;
 
         location_to_search = document.getElementById('my-search-input-location').value;
@@ -210,12 +211,11 @@ var ViewModel = function() {
             url: 'https://api.foursquare.com/v2/venues/search?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815&near=' + location_to_search + '&query=' + cuisine_to_search_for,
             dataType: 'json',
             success: function(response) {
-                self.data_from_model.removeAll();
-
                 if (response.response.venues.length < 1) {
                     self.data_from_model.push({
                         name: 'No results found',
-                        index: 0
+                        index: 0,
+                        visibility: ko.observable(true)
                     });
 
                     document.getElementById('subresult-name').innerHTML = '';
@@ -260,12 +260,12 @@ var ViewModel = function() {
             },
             error: function(err) {
                 console.log(err);
-                self.data_from_model.removeAll();
-                document.getElementById('subresult-name').innerHTML = 'Bad request, please try something else.';
+                document.getElementById('subresult-name').innerHTML = '';
                 document.getElementById('subresult-address').innerHTML = '';
                 document.getElementById('subresult-cuisine-type').innerHTML = '';
                 document.getElementById('subresult-img').innerHTML = '';
                 document.getElementById('subresult-hours').innerHTML = '';
+                alert('Bad request. Please try something else.');
             }
         });
     });
@@ -285,7 +285,10 @@ var ViewModel = function() {
         if ($('#checkbox-is-chain').is(':checked') && $('#checkbox-users-there').is(':checked')) {
             for (var joint_index in self.data_from_model()) {
                 /* check if both required attributes are what we want */
-                if (self.data_from_model()[joint_index].venueChains.length > 0 && self.data_from_model()[joint_index].hereNow.count > 0) {
+                if (self.data_from_model()[0].name == 'No results found') {
+                    makeInvisible(joint_index);
+                }
+                else if (self.data_from_model()[joint_index].venueChains.length > 0 && self.data_from_model()[joint_index].hereNow.count > 0) {
                     makeVisible(joint_index);
                 }
                 /* both required attributes aren't what we want, so hide item*/
@@ -299,7 +302,10 @@ var ViewModel = function() {
             /* handle chain checkbox being checked */
             if ($('#checkbox-is-chain').is(':checked')) {
                 for (var chain_index in self.data_from_model()) {
-                    if (self.data_from_model()[chain_index].venueChains.length > 0) {
+                    if (self.data_from_model()[0].name == 'No results found') {
+                        makeInvisible(chain_index);
+                    }
+                    else if (self.data_from_model()[chain_index].venueChains.length > 0) {
                         makeVisible(chain_index);
                     } else {
                         makeInvisible(chain_index);
@@ -312,7 +318,11 @@ var ViewModel = function() {
                 if ($('#checkbox-users-there').is(':checked')) {
                     for (var index in self.data_from_model()) {
                         makeVisible(index);
-                        if (self.data_from_model()[index].hereNow.count === 0) {
+                        if (self.data_from_model()[index].hereNow !== undefined) {
+                            if (self.data_from_model()[index].hereNow.count === 0) {
+                                makeInvisible(index);
+                            }
+                        } else if (self.data_from_model()[index].hereNow === undefined) {
                             makeInvisible(index);
                         }
                     }
@@ -342,7 +352,10 @@ var ViewModel = function() {
         if ($('#checkbox-is-chain').is(':checked') && $('#checkbox-users-there').is(':checked')) {
             for (var joint_index in self.data_from_model()) {
                 /* check if both required attributes are what we want */
-                if (self.data_from_model()[joint_index].venueChains.length > 0 && self.data_from_model()[joint_index].hereNow.count > 0) {
+                if (self.data_from_model()[0].name == 'No results found') {
+                    makeInvisible(joint_index);
+                }
+                else if (self.data_from_model()[joint_index].venueChains.length > 0 && self.data_from_model()[joint_index].hereNow.count > 0) {
                     makeVisible(joint_index);
                 }
                 /* both required attributes aren't what we want, so hide item*/
@@ -356,7 +369,10 @@ var ViewModel = function() {
             /* handle user checkbox being checked */
             if ($('#checkbox-users-there').is(':checked')) {
                 for (var chain_index in self.data_from_model()) {
-                    if (self.data_from_model()[chain_index].hereNow.count > 0) {
+                    if (self.data_from_model()[0].name == 'No results found') {
+                        makeInvisible(chain_index);
+                    }
+                    else if (self.data_from_model()[chain_index].hereNow.count > 0) {
                         makeVisible(chain_index);
                     } else {
                         makeInvisible(chain_index);
@@ -369,7 +385,11 @@ var ViewModel = function() {
                 if ($('#checkbox-is-chain').is(':checked')) {
                     for (var index in self.data_from_model()) {
                         makeVisible(index);
-                        if (self.data_from_model()[index].venueChains.length < 1) {
+                        if (self.data_from_model()[index].venueChains !== undefined) {
+                            if (self.data_from_model()[index].venueChains.length < 1) {
+                                makeInvisible(index);
+                            }
+                        } else if (self.data_from_model()[index].venueChains === undefined) {
                             makeInvisible(index);
                         }
                     }
