@@ -195,6 +195,8 @@ var ViewModel = function() {
         document.getElementById('subresult-name').innerHTML = '<p tabindex="0">' + place_name + '</p>';
         document.getElementById('subresult-address').innerHTML = place_formatted_location;
         document.getElementById('subresult-cuisine-type').innerHTML = cuisine_type;
+        document.getElementById('new-tip-box').value = '';
+        document.getElementById('new-tip-user-name').value='';
 
         document.getElementById('subresult').style.display = 'block';
     }
