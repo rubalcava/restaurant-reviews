@@ -1,5 +1,3 @@
-// TODO decide if all elements should be tabbable
-
 var ViewModel = function() {
     var self = this;
 
