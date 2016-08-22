@@ -21,7 +21,6 @@ var ViewModel = function() {
     		url: 'https://api.foursquare.com/v2/venues/' + place_id + '/tips?client_id=IY4MOF0VN0HHCOSRH121TJYN1P3FTVZRNCX2RU1YNF23GRBH&client_secret=O0GFJPKBRBDYSO4M52SRJBINZLFWVF4DLPNYZ3WH5NOIYVKW&v=20130815',
     		dataType: 'json',
     		success: function(response) {
-                console.log(response.response.tips.items);
                 if (response.response.tips.count > 0) {
                     /* loop through each tip */
                     for (var i=0; i< response.response.tips.count; i++) {
@@ -43,13 +42,13 @@ var ViewModel = function() {
                             break;
                         }
                         /* output to page */
-                        document.getElementById('subresult-tips').innerHTML = '<p><strong>Tips</strong></p>' + entire_tip_section;
+                        document.getElementById('subresult-tips').innerHTML = '<p tabindex="0"><strong>Tips</strong></p>' + entire_tip_section;
                     }
 
                 }
                 /* No tips found */
                 else {
-                    document.getElementById('subresult-img').innerHTML = '<p><strong>Tips: </strong></p>' + '<p>No user tips found.</p>';
+                    document.getElementById('subresult-img').innerHTML = '<p tabindex="0"><strong>Tips: </strong></p>' + '<p>No user tips found.</p>';
                 }
     		},
             error: function(err) {
@@ -121,7 +120,7 @@ var ViewModel = function() {
                     }
 
                 }).then(function() {
-                    document.getElementById('subresult-hours').innerHTML = '<strong>Hours</strong><br><br>';
+                    document.getElementById('subresult-hours').innerHTML = '<p tabindex="0"><strong>Hours</strong></p>';
                     var formatted_days;
                     var formatted_hours;
 
@@ -154,7 +153,10 @@ var ViewModel = function() {
                         }
                     }
                 });
-    		}
+    		},
+            error: function(err) {
+                console.log(err);
+            }
     	});
     }
 
@@ -184,7 +186,7 @@ var ViewModel = function() {
         getHours(place_id);
         getTips(place_id);
 
-        document.getElementById('subresult-name').innerHTML = place_name;
+        document.getElementById('subresult-name').innerHTML = '<p tabindex="0">' + place_name + '</p>';
         document.getElementById('subresult-address').innerHTML = place_formatted_location;
         document.getElementById('subresult-cuisine-type').innerHTML = cuisine_type;
     }
@@ -264,6 +266,7 @@ var ViewModel = function() {
         document.getElementById('subresult-cuisine-type').innerHTML = '';
         document.getElementById('subresult-img').innerHTML = '';
         document.getElementById('subresult-hours').innerHTML = '';
+        document.getElementById('subresult-tips').innerHTML = '';
 
         /* handle both being checked */
         if ($('#checkbox-is-chain').is(':checked') && $('#checkbox-users-there').is(':checked')) {
@@ -318,6 +321,7 @@ var ViewModel = function() {
         document.getElementById('subresult-cuisine-type').innerHTML = '';
         document.getElementById('subresult-img').innerHTML = '';
         document.getElementById('subresult-hours').innerHTML = '';
+        document.getElementById('subresult-tips').innerHTML = '';
 
         /* handle both being checked */
         if ($('#checkbox-is-chain').is(':checked') && $('#checkbox-users-there').is(':checked')) {
