@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    <div class='page-header' role='heading'>
-        <h3 tabindex='0'>Restaurant Reviews<br><small>an app by Richard Rubalcava<br>using Foursquare's API</small></h3>
-    </div>
+    <header class='page-header'>
+        <h1>Restaurant Reviews<br><small>an app by Richard Rubalcava<br>using Foursquare's API</small></h1>
+    </header>
     <form class='my-search-form'>
         <div class="form-group">
             <label for='my-search-input-query'>Which cuisine would you like to look for?</label>
@@ -22,7 +22,7 @@
             <label for='my-search-input-location'>In which city would you like to look?</label>
             <input type='text' class='form-control' id='my-search-input-location' placeholder='Example: San Francisco'>
         </div>
-        <button type='button' class='btn btn-default' id='my-search-button' role="search">Search</button>
+        <button type='button' class='btn btn-default' id='my-search-button'>Search</button>
         <div class='form-group checkbox-group'>
             <p><strong>No results after search? Try unchecking the below filters.</strong></p>
             <label class="checkbox-inline"><input type="checkbox" value="" id='checkbox-is-chain'>Chain Restaurant?</label>
@@ -37,7 +37,7 @@
         </section>
         <section id='subresult' style='display:none'>
             <div>
-                <p id='subresult-name'></p>
+                <h3 id='subresult-name'></h3>
                 <p id='subresult-cuisine-type'></p>
                 <p id='subresult-address'></p>
                 <p id='subresult-img'></p>

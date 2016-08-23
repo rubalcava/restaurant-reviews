@@ -40,13 +40,13 @@ var ViewModel = function() {
                             break;
                         }
                         /* output to page */
-                        document.getElementById('subresult-tips').innerHTML = '<p tabindex="0"><strong>Tips</strong></p>' + entire_tip_section;
+                        document.getElementById('subresult-tips').innerHTML = '<p><strong>Tips</strong></p>' + entire_tip_section;
                     }
 
                 }
                 /* No tips found */
                 else {
-                    document.getElementById('subresult-img').innerHTML = '<p tabindex="0"><strong>Tips: </strong></p>' + '<p>No user tips found.</p>';
+                    document.getElementById('subresult-tips').innerHTML = '<p><strong>Tips: </strong></p>' + '<p>No user tips found.</p>';
                 }
             },
             error: function(err) {
@@ -120,7 +120,7 @@ var ViewModel = function() {
                     }
 
                 }).then(function() {
-                    document.getElementById('subresult-hours').innerHTML = '<p tabindex="0"><strong>Hours</strong></p>';
+                    document.getElementById('subresult-hours').innerHTML = '<p><strong>Hours</strong></p>';
                     var formatted_days;
                     var formatted_hours;
 
@@ -192,7 +192,7 @@ var ViewModel = function() {
         getHours(place_id);
         getTips(place_id);
 
-        document.getElementById('subresult-name').innerHTML = '<p tabindex="0">' + place_name + '</p>';
+        document.getElementById('subresult-name').innerHTML = '<p>' + place_name + '</p>';
         document.getElementById('subresult-address').innerHTML = place_formatted_location;
         document.getElementById('subresult-cuisine-type').innerHTML = cuisine_type;
         document.getElementById('new-tip-box').value = '';
